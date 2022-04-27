@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.opencypher:expressions-9.0:9.0.20181030">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opencypher/expressions-9.0/9.0.20181030/fdfdfd995e349cb2f54d16910b844e95471a0152/expressions-9.0-9.0.20181030.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opencypher/expressions-9.0/9.0.20181030/c39ca58b5f851e63e17a6db06202dcefc5e21c0c/expressions-9.0-9.0.20181030-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

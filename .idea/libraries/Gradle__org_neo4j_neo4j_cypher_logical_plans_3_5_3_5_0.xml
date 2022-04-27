@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.neo4j:neo4j-cypher-logical-plans-3.5:3.5.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-cypher-logical-plans-3.5/3.5.0/c754e6c607043cbf08042347dc3bcf60bd94e96c/neo4j-cypher-logical-plans-3.5-3.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.neo4j/neo4j-cypher-logical-plans-3.5/3.5.0/74cdfd61494ff5bb77d98e69dc7cb193727226a9/neo4j-cypher-logical-plans-3.5-3.5.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

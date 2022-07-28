@@ -26,20 +26,20 @@ public interface ConnectionDao extends Neo4jRepository<Connection, Long> {
     @Query("MATCH (cell:"+ CELL_INSTANCE +")<-[" + TO_CELL + "]-(connection:" + CONNECTION + ") " +
             ",(var:"+ VARIABLE +")<-[" + FUNCTION_INPUT_VARIABLE + "]-(connection:" + CONNECTION + ") " +
             ",(fromCell:"+ CELL_INSTANCE +")-[" + FROM_CELL + "]->(connection:" + CONNECTION + ") " +
-            "WHERE id(cell) = {toCell}"+
+            "WHERE id(cell) = $toCell "+
             "RETURN connection, var, fromCell, cell")
     List<Connection> getConnectionsByToCell(@Param("toCell") CellInstance toCell);
 
 
     @Query("MATCH (toCell:"+ CELL_INSTANCE +")<-[" + TO_CELL + "]-(connection:" + CONNECTION + ") ," +
             "(var:"+ VARIABLE +")<-[" + FUNCTION_INPUT_VARIABLE + "]-(connection:" + CONNECTION + ") " +
-            "WHERE id(toCell) = {toCellParam} AND id(var) = {varParam}"+
+            "WHERE id(toCell) = $toCellParam AND id(var) = $varParam "+
             "DETACH DELETE connection")
     void deleteConnectionByToCellAndAndConnectionVariable(@Param("toCellParam") CellInstance toCell,@Param("varParam") Variable variable);
 
     @Query("MATCH (toCell:"+ CELL_INSTANCE +")<-[" + TO_CELL + "]-(connection:" + CONNECTION + ") " +
             ",(connection:" + CONNECTION + ") <-[" + FROM_CELL + "]-(fromCell:"+ CELL_INSTANCE +")" +
-            "WHERE ID(toCell) = {cellInstance} OR ID(fromCell) = {cellInstance}"+
+            "WHERE ID(toCell) = $cellInstance OR ID(fromCell) = $cellInstance "+
             "DETACH DELETE connection")
     void deleteConnectionByToCellOrFromCell(@Param("cellInstance") CellInstance cellInstance);
 

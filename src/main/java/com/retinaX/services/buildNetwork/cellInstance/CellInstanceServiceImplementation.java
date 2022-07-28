@@ -71,11 +71,6 @@ public class CellInstanceServiceImplementation implements CellInstanceService {
         cellInstanceDao.save(updatedCellInstance);
     }
 
-//    @Override
-//    public CellInstance getHighestCellId() {
-//        return cellInstanceDao.getHighestCellInstanceId();
-//    }
-
     @Transactional
     public void deletePreviousConnection(ConnectCellsRequest connectCellsRequest){
         Variable variable = getFunctionVariableByName(connectCellsRequest.getDestinationCell(), connectCellsRequest.getInputFunctionVariable());

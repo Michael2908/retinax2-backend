@@ -3,6 +3,7 @@ package com.retinaX.coreAPI.buildNetworkAPI;
 import com.retinaX.coreAPI.buildNetworkAPI.requests.*;
 import com.retinaX.entities.*;
 import com.retinaX.services.buildNetwork.BuildNetworkService;
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -40,9 +41,10 @@ public class BuildNetworkAPIImplementation implements BuildNetworkAPI{
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public int createSubGraph(@RequestBody AddSubGraphRequest addSubGraphRequest){
-        buildNetworkService.createSubGraph(addSubGraphRequest);
-        return 200;
+    public SubGraphInstance createSubGraph(@RequestBody AddSubGraphRequest addSubGraphRequest){
+        SubGraphInstance subGraph = buildNetworkService.createSubGraph(addSubGraphRequest);
+        return subGraph;
+
     }
 
 
@@ -140,28 +142,28 @@ public class BuildNetworkAPIImplementation implements BuildNetworkAPI{
     public List<Connection> getAllConnections() {
         return buildNetworkService.getConnections();
     }
-/*
-    @Override
+
     @GetMapping (
             path="/getSubGraphById/{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public SubGraphInstance getSubGraph(Long id) {
-        return buildNetworkService.getSubGraph(id);
-    }
-*/
-    @GetMapping (
-            path="/getSubGraphByName/{name}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public SubGraphInstance getSubGraph(@PathVariable("name") String id) {
+    public List<SubGraphInstance> getSubGraph(@PathVariable(name="id") Long id) {
         return buildNetworkService.getSubGraph(id);
 
     }
 
+        @Override
+        @RequestMapping(
+                path="/cloneSubGraph/{id}",
+                method = RequestMethod.POST,
+                consumes = MediaType.APPLICATION_JSON_VALUE,
+                produces = MediaType.APPLICATION_JSON_VALUE
+        )
+        public SubGraphInstance cloneSubGraph(@PathVariable(name="id") Long id) {
 
-
+           return buildNetworkService.cloneSubGraph(id);
+        }
 
     @Override
     @RequestMapping(
@@ -172,10 +174,16 @@ public class BuildNetworkAPIImplementation implements BuildNetworkAPI{
     public void updateCellCoordinates(@RequestBody CellInstance cellInstance, @PathVariable("x") double x, @PathVariable("y") double y) {
         buildNetworkService.updateCellInstanceCoordinates(cellInstance, x, y);
     }
+    @Override
+    @RequestMapping(path = "/subGraphId/{id}", method = RequestMethod.DELETE)
+    public void deleteSubGraph(@PathVariable(name="id") Long id) {
+        buildNetworkService.deleteSubGraph(id);
+    }
+
 
     @Override
     @RequestMapping(path = "/cellTypes/{id}", method = RequestMethod.DELETE)
-    public void deleteCellType(@PathVariable("id") Long id) {
+    public void deleteCellType(@PathVariable(name="id") Long id) {
         buildNetworkService.deleteCellType(id);
     }
 

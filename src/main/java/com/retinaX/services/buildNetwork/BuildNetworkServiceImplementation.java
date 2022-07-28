@@ -2,7 +2,6 @@ package com.retinaX.services.buildNetwork;
 
 import com.retinaX.coreAPI.buildNetworkAPI.requests.*;
 import com.retinaX.entities.*;
-import com.retinaX.services.SubGraphNetwork.SubGraphService;
 import com.retinaX.services.SubGraphNetwork.SubGraphServiceImplementation;
 import com.retinaX.services.buildNetwork.cellInstance.CellInstanceService;
 import com.retinaX.services.buildNetwork.cellType.CellTypeService;
@@ -38,8 +37,10 @@ public class BuildNetworkServiceImplementation implements BuildNetworkService {
 
         return cellInstanceService.connectCells(connectCellsRequest);
     }
-    @Override
-    public SubGraphInstance getSubGraph(String id){ return subGraphService.getSubGraph(id);}
+
+   // public List<SubGraphInstance> getSubGraph(String id){ return subGraphService.getSubGraph(id);}
+   public List<SubGraphInstance> getSubGraph(Long id){ return subGraphService.getSubGraph(id);}
+
 
     @Override
     public CellType getCellType(Long id) {
@@ -70,12 +71,7 @@ public class BuildNetworkServiceImplementation implements BuildNetworkService {
     public void updateCellInstanceCoordinates(CellInstance cellInstance, double x, double y) {
         cellInstanceService.updateCoordinates(cellInstance, x, y);
     }
-/*
-    @Override
-    public SubGraphInstance getSubGraph(String subGraphFilter) {
-        return subGraphService.getSubGraph(subGraphFilter);
-    }
-*/
+
     @Override
     public Boolean areCompatible(CellTransformType sourceTransformType, CellTransformType destTransformType) {
         return cellTypeService.areCompatible(sourceTransformType, destTransformType);
@@ -87,36 +83,8 @@ public class BuildNetworkServiceImplementation implements BuildNetworkService {
     }
 
     @Override
-    public void createSubGraph(AddSubGraphRequest request) {
-        subGraphService.createSubGraph(request);
-        //TODO
-        //consider return
-
-
-//        CellInstance cell;
-//        //long highestId = cell.getId();
-//        ArrayList<AddCellInstanceRequest> addCells = request.getAddCellList();
-//        HashMap<Long,Long> idConversion = new HashMap<Long,Long>();
-//        //add cells
-//        for (int i =0; i < addCells.size();i++)
-//        {
-//            cell =  addCellInstance(addCells.get(i));
-//            idConversion.put((long)i,cell.getId());
-//        }
-//        ArrayList<ConnectCellsRequest> addConnections = request.getConnectCellList();
-//        ConnectCellsRequest connectRequest;
-//        CellInstance source,dest;
-//
-//        for (int i =0; i < addConnections.size();i++)
-//        {
-//            connectRequest = addConnections.get(i);
-//            source = connectRequest.getSourceCell();
-//            dest = connectRequest.getDestinationCell();
-//            source.setId(idConversion.get(Long.valueOf(source.getId())));
-//            dest.setId(idConversion.get(Long.valueOf(dest.getId())));
-//            connectCells(connectRequest);
-//        }
-
+    public SubGraphInstance createSubGraph(AddSubGraphRequest request) {
+      return subGraphService.createSubGraph(request);
     }
 
     @Override
@@ -140,10 +108,6 @@ public class BuildNetworkServiceImplementation implements BuildNetworkService {
         cellInstanceService.deleteConnection(id);
     }
 
-//    @Override
-//    public void deleteFunction(Long id) {
-//        functionService.deleteFunction(id);
-//    }
 
     @Autowired
     public void setCellTypeService(CellTypeService cellTypeService) {
@@ -159,4 +123,15 @@ public class BuildNetworkServiceImplementation implements BuildNetworkService {
     public void setSubGraphService(SubGraphServiceImplementation subGraphService) {
         this.subGraphService = subGraphService;
     }
+
+    public SubGraphInstance cloneSubGraph(Long id)
+    {
+        return subGraphService.cloneSubGraph(id);
+    }
+
+    @Override
+    public void deleteSubGraph(Long id) {
+        subGraphService.deleteSubGraphById(id);
+    }
+
 }

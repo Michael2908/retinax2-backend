@@ -9,8 +9,10 @@ import com.retinaX.dal.utils.IdGeneratorService;
 import com.retinaX.entities.CellInstance;
 import com.retinaX.entities.CellTransformType;
 import com.retinaX.entities.CellType;
+import com.retinaX.entities.SubGraphInstance;
 import com.retinaX.entities.function.Function;
 import com.retinaX.entities.function.Variable;
+import com.retinaX.exceptions.PropertyMissing;
 import com.retinaX.services.function.FunctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,11 +38,14 @@ public class CellTypeServiceImplementation implements CellTypeService{
 
     @PostConstruct
     private void init(){
-        if(!cellTypeDao.findCellTypeByTransformType(CellTransformType.INPUT_TO_ANALOG).isPresent()) {
-            CreateCellTypeRequest createInputCellTypeRequest = new CreateCellTypeRequest("Input Cell", CellTransformType.INPUT_TO_ANALOG,
-                    new CreateFunctionRequest("x", Set.of("x")));
-            createCellType(createInputCellTypeRequest);
-        }
+//        Optional<CellType> a = cellTypeDao.findCellTypeByTransformType(CellTransformType.INPUT_TO_ANALOG);
+//
+//        if(!a.isPresent()) {
+//
+//            CreateCellTypeRequest createInputCellTypeRequest = new CreateCellTypeRequest("Input Cell", CellTransformType.INPUT_TO_ANALOG,
+//                    new CreateFunctionRequest("x", Set.of("x")));
+//            createCellType(createInputCellTypeRequest);
+//        }
     }
 
     @Transactional
@@ -60,6 +65,9 @@ public class CellTypeServiceImplementation implements CellTypeService{
 
         variableDao.saveAll(function.getVariables());
         functionDao.save(function);
+        //       if(cellType.getTransformType() == null)
+        //    throw  new PropertyMissing("missing propery!");
+       // else
         return cellTypeDao.save(cellType);
     }
 
@@ -121,6 +129,7 @@ public class CellTypeServiceImplementation implements CellTypeService{
     public Boolean areCompatible(CellTransformType sourceTransformType, CellTransformType destTransformType) {
         return CellTransformType.areCompatible(sourceTransformType, destTransformType);
     }
+
 
     @Override
     public void deleteCellType(Long id) {

@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class SimulateRequest {
     private List<CellInstance> outputCells;
+    //long is the id of the input cell
     private Map<Long, List<Double>> userInput;
     private int maxTime;
 

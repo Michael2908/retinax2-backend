@@ -1,5 +1,7 @@
 package com.retinaX.entities.function;
 
+import com.retinaX.entities.CellType;
+import com.retinaX.services.utils.CloneManager;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -8,19 +10,20 @@ import org.neo4j.ogm.annotation.Relationship;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.retinaX.entities.utils.RetinaXEntityLabels.FUNCTION;
 import static com.retinaX.entities.utils.RetinaXRelationshipTypes.FUNCTION_VARS;
 
 @NodeEntity(label = FUNCTION)
-public class Function {
+public class Function implements Cloneable {
     @Id
     @GeneratedValue
     private Long id;
     private String expression;
 
 
-    @Relationship(type = FUNCTION_VARS)
+    @Relationship(type = FUNCTION_VARS,direction = Relationship.UNDIRECTED)
     private Set<Variable> variables;
 
 
@@ -53,13 +56,36 @@ public class Function {
         return variables;
     }
 
-    public int getNumberOfVariables(){
+    public Integer getNumberOfVariables(){
         return variables.size();
     }
 
     public void setVariables(Set<Variable> variables) {
         this.variables = variables;
     }
+
+    @Override
+    public Function clone() {
+
+         return new Function(expression, variables.stream().map(CloneManager::getClonedVariable).collect(Collectors.toSet()));
+    }
+
+/*
+    @Override
+    public Function clone() {
+        try {
+           Function cloned = (Function) super.clone();
+            cloned.setId(null);
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+           return new Function(expression, variables.stream().map(Variable::clone).collect(Collectors.toSet()));
+        }
+    }
+
+
+*/
+
+
 
     @Override
     public boolean equals(Object o) {

@@ -1,9 +1,12 @@
 package com.retinaX.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.retinaX.services.utils.CloneManager;
 import org.neo4j.ogm.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.retinaX.entities.utils.RetinaXEntityLabels.CELL_INSTANCE;
 import static com.retinaX.entities.utils.RetinaXRelationshipTypes.FROM_CELL;
@@ -11,7 +14,7 @@ import static com.retinaX.entities.utils.RetinaXRelationshipTypes.FROM_TYPE;
 
 
 @NodeEntity(label = CELL_INSTANCE)
-public class CellInstance {
+public class  CellInstance implements Cloneable {
     @Id
     @GeneratedValue
     private Long id;
@@ -42,11 +45,14 @@ public class CellInstance {
         setyCoordinate(y);
     }
 
-    public CellInstance copy(){
-
-        CellInstance result = new CellInstance(cellType,xCoordinate,yCoordinate);
+    @Override
+    public CellInstance clone(){
+        CellInstance result = new CellInstance(CloneManager.getClonedCellType(cellType),xCoordinate,yCoordinate);
+        if(connections != null)
+            result.setConnections(connections.stream().map(connection -> connection.clone(result)).collect(Collectors.toList()));
         return result;
     }
+
 
     public Long getId() {
         return id;
@@ -84,12 +90,12 @@ public class CellInstance {
     public int hashCode() {
         return Objects.hash(id);
     }
-
+/*
     @Override
     public String toString() {
         return "CELL INSTANCE: "+getId() + " type:" + getCellType().getName();
     }
-
+*/
     public Double getxCoordinate() {
         return xCoordinate;
     }

@@ -17,10 +17,8 @@ import static com.retinaX.entities.utils.RetinaXRelationshipTypes.FROM_TYPE;
 public interface CellInstanceDao extends Neo4jRepository<CellInstance, Long> {
 
     @Query( "MATCH (type:" + CELL_TYPE + ")<-[" + FROM_TYPE + "]-(instance:" + CELL_INSTANCE + ") " +
-            "WHERE ID(type) = {cellTypeId} " +
+            "WHERE ID(type) = $cellTypeId " +
             "RETURN instance")
     List<CellInstance> findAllByCellType(@Param("cellTypeId") Long cellTypeId);
 
-    //@Query("MATCH(entity) RETURN MAX(entity)")
-    //CellInstance getHighestCellInstanceId();
 }

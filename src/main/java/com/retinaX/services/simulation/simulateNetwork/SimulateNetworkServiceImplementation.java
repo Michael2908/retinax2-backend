@@ -7,10 +7,8 @@ import com.retinaX.entities.CellInstance;
 import com.retinaX.entities.CellTransformType;
 import com.retinaX.entities.Connection;
 import com.retinaX.entities.cellData.CellData;
-import com.retinaX.entities.function.Variable;
 import com.retinaX.services.simulation.cellSimulation.CellInstanceController;
 import com.retinaX.services.simulation.cellSimulation.CellInstanceControllerFactory;
-import com.retinaX.services.simulation.cellSimulation.CellSubscriber;
 import com.retinaX.services.simulation.cellSimulation.SimulationResultCellSubscriber;
 import com.retinaX.services.simulation.cellSimulation.cellReceivers.dataSources.CellDataSource;
 import com.retinaX.services.simulation.cellSimulation.cellReceivers.dataSources.ConnectionsDataSource;
@@ -19,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

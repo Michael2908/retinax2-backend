@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 public interface BuildNetworkAPI {
     CellType createCellType(CreateCellTypeRequest createCellTypeRequest);
-     public int createSubGraph(@RequestBody AddSubGraphRequest addBlockRequest);
+    SubGraphInstance createSubGraph(@RequestBody AddSubGraphRequest addBlockRequest);
     CellInstance addCellInstance(AddCellInstanceRequest addCellInstanceRequest);
 
     CellInstance connectCells(ConnectCellsRequest connectCellsRequest);
@@ -31,10 +32,10 @@ public interface BuildNetworkAPI {
     List<CellInstance> getInputCells();
 
     List<Connection> getAllConnections();
+    List<SubGraphInstance> getSubGraph(Long id);
 
-   // SubGraphInstance getSubGraph(Long id);
-
-        void updateCellCoordinates(CellInstance cellInstance, double x, double y);
+    //List <SubGraphInstance> getSubGraph(String id);
+    void updateCellCoordinates(CellInstance cellInstance, double x, double y);
 
     void deleteCellType(Long id);
 
@@ -42,4 +43,6 @@ public interface BuildNetworkAPI {
 
     void deleteConnection(Long id);
 
+    SubGraphInstance cloneSubGraph(Long id);
+    void deleteSubGraph(Long id);
 }

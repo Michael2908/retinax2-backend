@@ -1,18 +1,22 @@
 package com.retinaX.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.retinaX.entities.function.Function;
+import com.retinaX.services.utils.CloneManager;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
+import java.util.InputMismatchException;
 import java.util.Objects;
 
 import static com.retinaX.entities.utils.RetinaXEntityLabels.CELL_TYPE;
 import static com.retinaX.entities.utils.RetinaXRelationshipTypes.CELL_TYPE_FUNCTION;
+import static com.retinaX.entities.utils.RetinaXRelationshipTypes.FROM_TYPE;
 
 @NodeEntity(label = CELL_TYPE)
-public class CellType {
+public class CellType implements Cloneable {
     @Id
     @GeneratedValue
     private Long id;
@@ -20,7 +24,7 @@ public class CellType {
 
     private CellTransformType transformType;
 
-    @Relationship(type = CELL_TYPE_FUNCTION)
+    @Relationship(type = CELL_TYPE_FUNCTION, direction = Relationship.UNDIRECTED)
     private Function function;
 
     public CellType(String name, CellTransformType transformType, Function function) {
@@ -45,6 +49,12 @@ public class CellType {
         return name;
     }
 
+    @Override
+    public CellType clone() {
+        Function clonedFunc = CloneManager.getClonedFunction(function);
+        return new CellType(name, transformType, clonedFunc);
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -54,7 +64,12 @@ public class CellType {
     }
 
     public CellTransformType getTransformType() {
-        return transformType;
+      //  if(transformType ==null) {
+       //     throw new RuntimeException("Please enter transformType!");
+
+      //  }else{
+            return transformType;
+       // }
     }
 
     public void setFunction(Function function) {
@@ -65,16 +80,27 @@ public class CellType {
         return function;
     }
 
-    public int getNumberOfInputs() {
-        return function.getNumberOfVariables();
+    public Integer getNumberOfInputs() {
+        if(function != null){
+          return function.getNumberOfVariables();
+        }
+        return null;
     }
 
     public CellTransformType.Type getInputType(){
-        return transformType.getInput();
+        if(transformType != null){
+            return transformType.getInput();
+        }
+        return null;
+
     }
 
     public CellTransformType.Type getOutputType(){
-        return transformType.getOutput();
+        //return transformType.getOutput();
+        if(transformType != null){
+            return transformType.getOutput();
+        }
+        return null;
     }
 
     @Override

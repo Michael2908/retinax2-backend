@@ -1,9 +1,10 @@
 package com.retinaX.coreAPI.buildNetworkAPI.requests;
 
 public class AddCellInstanceRequest {
+    private Long cellInstanceID;
     private Long cellTypeId;
-    private double x;
-    private double y;
+    private Double x;
+    private Double y;
 
 
     public AddCellInstanceRequest() {
@@ -21,19 +22,27 @@ public class AddCellInstanceRequest {
         this.cellTypeId = cellTypeId;
     }
 
-    public void setX(double x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
-    public void setY(double y) {
+    public void setY(Double y) {
         this.y = y;
     }
 
-    public double getX() {
+    public Double getX() {
         return x;
     }
 
-    public double getY() {
+    public Double getY() {
         return y;
+    }
+
+    public Long getCellInstanceID() {
+        return cellInstanceID;
+    }
+
+    public void setCellInstanceID(Long cellInstanceID) {
+        this.cellInstanceID = cellInstanceID;
     }
 }

@@ -6,7 +6,7 @@ public class ConnectCellsRequest {
 
     private CellInstance sourceCell;
     private CellInstance destinationCell;
-    private int delay;
+    private Integer delay;
     private String inputFunctionVariable;
 
     public ConnectCellsRequest() {
@@ -47,11 +47,11 @@ public class ConnectCellsRequest {
         this.sourceCell = sourceCell;
     }
 
-    public int getDelay() {
+    public Integer getDelay() {
         return delay;
     }
 
-    public void setDelay(int delay) {
+    public void setDelay(Integer delay) {
         this.delay = delay;
     }
 }

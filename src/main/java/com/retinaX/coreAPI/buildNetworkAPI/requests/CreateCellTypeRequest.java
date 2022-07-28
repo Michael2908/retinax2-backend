@@ -6,6 +6,7 @@ public class CreateCellTypeRequest {
     private String name;
     private CellTransformType transformType;
     private CreateFunctionRequest createFunctionRequest;
+    private Long cellTypeId;
 
     public CreateCellTypeRequest(){
 
@@ -39,5 +40,13 @@ public class CreateCellTypeRequest {
 
     public void setCreateFunctionRequest(CreateFunctionRequest createFunctionRequest) {
         this.createFunctionRequest = createFunctionRequest;
+    }
+
+    public Long getCellTypeId() {
+        return cellTypeId;
+    }
+
+    public void setCellTypeId(Long cellTypeId) {
+        this.cellTypeId = cellTypeId;
     }
 }

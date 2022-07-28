@@ -6,13 +6,14 @@ import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 
+import java.util.HashSet;
 import java.util.Objects;
 
 import static com.retinaX.entities.utils.RetinaXEntityLabels.VARIABLE;
 
 
 @NodeEntity(label = VARIABLE)
-public class Variable {
+public class Variable implements Cloneable {
 
     @Id
     @GeneratedValue
@@ -43,6 +44,17 @@ public class Variable {
 
     public void setVariableName(String variableName) {
         this.variableName = variableName;
+    }
+
+    @Override
+    public Variable clone() {
+        try {
+            Variable cloned = (Variable) super.clone();
+            cloned.setId(null);
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            return new Variable(variableName);
+        }
     }
 
     @Override

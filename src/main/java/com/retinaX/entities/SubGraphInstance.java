@@ -1,40 +1,39 @@
 package com.retinaX.entities;
-import org.neo4j.ogm.annotation.*;
-import org.opencypher.v9_0.ast.FromGraph;
 
-import static com.retinaX.entities.utils.RetinaXEntityLabels.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.retinaX.services.buildNetwork.BuildNetworkService;
+import com.retinaX.services.utils.CloneManager;
+import org.neo4j.ogm.annotation.GeneratedValue;
+import org.neo4j.ogm.annotation.Id;
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.retinaX.entities.utils.RetinaXEntityLabels.SUB_GRAPH_INSTANCE;
 import static com.retinaX.entities.utils.RetinaXRelationshipTypes.FROM_GRAPH;
-
 @NodeEntity(label = SUB_GRAPH_INSTANCE)
-public class SubGraphInstance {
+public class SubGraphInstance implements Cloneable {
 
-  //  LinkedList<CellInstance> cells;
+    @Relationship(type = FROM_GRAPH)
+    @JsonManagedReference
+    private List<CellInstance> cells =new ArrayList<>();
+
+    public SubGraphInstance() {
+
+    }
+
+    public SubGraphInstance(List<CellInstance> cells) {
+        this.cells = cells;
+    }
 
     @Id
     @GeneratedValue
     private Long id;
-
-    private String name = "";
-
-//    @Relationship(type = FROM_TYPE, direction = Relationship.UNDIRECTED)
-    // List<Connection> connectionList;
-   @Relationship(type = FROM_GRAPH)
-   private CellInstance cell;
-
-    private CellTransformType transformType;
-
-
-//    @Relationship(type = CELL_TYPE_FUNCTION)
-//    private Function function;
-    public SubGraphInstance(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-
-    public SubGraphInstance() {
-    }
-
+    private String name;
     public Long getId() {
         return id;
     }
@@ -51,76 +50,33 @@ public class SubGraphInstance {
         this.name = name;
     }
 
-    public CellInstance getCell() {
-        return cell;
+    public SubGraphInstance clone(){
+        SubGraphInstance result = new SubGraphInstance();
+        result.setName(this.getName());
+        List<CellInstance> clonedCells = new ArrayList<>();
+        if(this.getCells() != null){
+            for(CellInstance cell: this.getCells()){
+                clonedCells.add(cell.clone());
+            }
+            result.setCells(clonedCells);
+        }
+        return result;
     }
-
-    public void setCell(CellInstance cell) {
-        this.cell = cell;
-    }
-    /* private void setTransformType(CellTransformType transformType) {
-        this.transformType = transformType;
-    }
-
-    public CellTransformType getTransformType() {
-        return transformType;
-    }*/
-
-
-
- /*   @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SubGraphInstance that = (SubGraphInstance) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(Cells, that.Cells) && transformType == that.transformType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, Cells, transformType);
-    }
-*/
-    //    public void setFunction(Function function) {
-//        this.function = function;
-//    }
-//
-//    public Function getFunction() {
-//        return function;
-//    }
-//
-//    public int getNumberOfInputs() {
-//        return function.getNumberOfVariables();
-//    }
-//
-//    public CellTransformType.Type getInputType(){
-//        return transformType.getInput();
-//    }
-//
-//    public CellTransformType.Type getOutputType(){
-//        return transformType.getOutput();
-//    }
-
-//    @Override
-//    public String toString() {
-//        return "CellType{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", transformType=" + transformType +
-//                ", function=" + function +
-//                '}';
-//    }
 
     @Override
     public String toString() {
         return "SubGraphInstance{" +
-                "id=" + id +
+                "cells=" + cells +
+                ", id=" + id +
                 ", name='" + name + '\'' +
-                ", cell=" + cell +
                 '}';
     }
+
+    public void setCells(List<CellInstance> cells) {
+        this.cells = cells;
+    }
+    public List<CellInstance> getCells() {
+        return cells;
+    }
 }
-
-
-
 

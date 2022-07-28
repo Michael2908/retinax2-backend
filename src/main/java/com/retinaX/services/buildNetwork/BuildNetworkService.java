@@ -5,6 +5,7 @@ import com.retinaX.coreAPI.buildNetworkAPI.requests.*;
 import com.retinaX.entities.*;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BuildNetworkService {
 
@@ -14,7 +15,10 @@ public interface BuildNetworkService {
 
     CellInstance connectCells(ConnectCellsRequest connectCellsRequest);
 
-    SubGraphInstance getSubGraph(String id);
+    //SubGraphInstance getSubGraph(Long id);
+    //SubGraphInstance getSubGraph(String id);
+    //List<SubGraphInstance> getSubGraph(String id);
+    List<SubGraphInstance> getSubGraph(Long id);
 
     CellType getCellType(Long id);
 
@@ -28,7 +32,7 @@ public interface BuildNetworkService {
 
     List<Connection> getConnections();
 
-    void createSubGraph(AddSubGraphRequest request);
+    SubGraphInstance createSubGraph(AddSubGraphRequest request);
 
     void clear();
 
@@ -43,6 +47,11 @@ public interface BuildNetworkService {
     List<CellInstance> getInputCells();
 
     void updateCellInstanceCoordinates(CellInstance cellInstance, double x, double y);
+
+    SubGraphInstance cloneSubGraph(Long id);
+
+    void deleteSubGraph(Long id);
+    //  List<SubGraphInstance> duplicateGraph();
 
     //SubGraphInstance filterSubGraph(String subGraphFilter);
 }

@@ -2,11 +2,13 @@ package com.retinaX.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.retinaX.entities.function.Variable;
+import com.retinaX.services.utils.CloneManager;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.neo4j.ogm.annotation.*;
 
 import java.util.InputMismatchException;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.retinaX.entities.utils.RetinaXEntityLabels.CONNECTION;
 import static com.retinaX.entities.utils.RetinaXRelationshipTypes.FROM_CELL;
@@ -14,7 +16,7 @@ import static com.retinaX.entities.utils.RetinaXRelationshipTypes.FUNCTION_INPUT
 import static com.retinaX.entities.utils.RetinaXRelationshipTypes.TO_CELL;
 
 @NodeEntity(label = CONNECTION)
-public class Connection {
+public class Connection implements Cloneable {
 
     @Id
     @GeneratedValue
@@ -87,6 +89,13 @@ public class Connection {
         this.variable = variable;
     }
 
+    public Connection clone(CellInstance fromCell){
+        return new Connection(
+                delay,
+                fromCell,
+                CloneManager.getClonedCell(toCell),
+                CloneManager.getClonedVariable(variable));
+    }
 
     @Override
     public boolean equals(Object o) {
